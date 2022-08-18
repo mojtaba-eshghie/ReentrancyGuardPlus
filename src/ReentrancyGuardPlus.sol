@@ -1,33 +1,37 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0 <0.9.0;
 
+
+// This will still lack polymorphysim and overloading support!
+// It just works based on function signature to prevent someone from just
+// calling the same function with slightly different arguments to trick the 
+// modifiers.
+
 contract ReentrancyGuardPlus {
     uint256 private constant _NOT_ENTERED = 1;
     uint256 private constant _ENTERED = 2;
 
-    uint256 private _status;
+    mapping (bytes4 => uint256) private _locks;
 
-    constructor() {
-        _status = _NOT_ENTERED;
+    event ErrorCatcher(bytes reason);
+
+    constructor() {    
     }
 
-    modifier nonReentrant() {
-        _nonReentrantBefore();
+    
+    modifier nonReentrant(bytes4 selector) {            
+        _nonReentrantBefore(selector);
         _;
-        _nonReentrantAfter();
+        _nonReentrantAfter(selector);
     }
 
-    function _nonReentrantBefore() private {
-        // On the first call to nonReentrant, _notEntered will be true
-        require(_status != _ENTERED, "ReentrancyGuard: reentrant call");
-
-        // Any calls to nonReentrant after this point will fail
-        _status = _ENTERED;
+    function _nonReentrantBefore(bytes4 selector) private {        
+        uint256 lock = _locks[selector];                
+        require(lock != _ENTERED, "ReentrancyGuard: reentrant call");
+        _locks[selector] = _ENTERED;
     }
 
-    function _nonReentrantAfter() private {
-        // By storing the original value once again, a refund is triggered (see
-        // https://eips.ethereum.org/EIPS/eip-2200)
-        _status = _NOT_ENTERED;
+    function _nonReentrantAfter(bytes4 selector) private {
+        _locks[selector] = _NOT_ENTERED;
     }
 }
