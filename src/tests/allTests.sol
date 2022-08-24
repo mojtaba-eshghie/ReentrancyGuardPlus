@@ -23,13 +23,10 @@ contract GuardTester1 is ReentrancyGuardPlus{
 // calling f1 here should not fail
 contract GuardTester2 is ReentrancyGuardPlus{
     function f1() public nonReentrant(this.f1.selector) {
-        console.log("f1");
         f2();
     }
 
-    function f2() public nonReentrant(this.f2.selector) {
-        console.log("f2");
-        
+    function f2() public nonReentrant(this.f2.selector) {        
     }
 }
 
