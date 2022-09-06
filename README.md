@@ -20,7 +20,7 @@ contract ExampleContract {
 ## Drawbacks and Limitations
 We recognize the following drawbacks and limitations with ReentrancyGuardPlus:
 - The gas consumption is more than the original guard from OpenZeppelin.
-- This implementation still lacks the possibility of locking for functions that are polymorphic or being overrided.
+- This implementation still lacks the possibility of locking for functions that are being overloaded.
 
 
 
