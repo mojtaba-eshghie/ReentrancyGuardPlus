@@ -2,6 +2,13 @@
 
 ReentrancyGuardPlus is ment to be used instead of the popular OpenZeppelin's ReentrancyGuard as a more flexible alternative. Reentrancy guards treat the function that is being protected against reentrancy as the critical section of the code, and apply locking mechanism to hold off the same transaction from calling into the critical section multiple times. This includes the protected function and other functions from calling consecutive calls into the protected function.
 
+## Citing this repository
+
+
+[![DOI](https://zenodo.org/badge/525724320.svg)](https://zenodo.org/badge/latestdoi/525724320)
+
+
+
 ## Motivation
 The mentioned mechanism works with no problem except for the case that we have multiple functions in the same contract to protect against reentrancy. Although there is a workaround for this by using external functions, we encourage you to use the more straightforward approach of using a more flexible locking mechanism which is ReentrancyGuardPlus.
 
